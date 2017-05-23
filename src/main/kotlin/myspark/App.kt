@@ -1,7 +1,7 @@
 package myspark
 
+import io.reactivex.Observable
 import mu.KotlinLogging
-import org.slf4j.Logger
 import spark.Request
 import spark.Spark.get
 
@@ -22,7 +22,15 @@ fun hello(req: Request): String {
 fun world(req: Request): String {
     logPath(req)
 
-    return "Rock your World"
+    var w = ""
+    getObservable().subscribe({ s -> w = s })
+
+    return w
+}
+
+private fun getObservable(): Observable<String> {
+
+    return Observable.just("Rock your World")
 }
 
 private fun logPath(req: Request) = LOGGER.info("Call to {}", req.pathInfo())
